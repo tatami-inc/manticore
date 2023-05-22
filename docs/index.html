@@ -94,7 +94,11 @@ Quick start</h1>
 <div class="line"><span class="keywordflow">for</span> (<span class="keywordtype">int</span> t = 0; t &lt; nthreads; ++t) {</div>
 <div class="line">    jobs.emplace_back([&amp;](<span class="keywordtype">int</span> thread) -&gt; <span class="keywordtype">void</span> {</div>
 <div class="line">        mexec.<a class="code hl_function" href="classmanticore_1_1Executor.html#a3bc19ec43cefc2e0b77f413a47c0e090">run</a>([&amp;]() -&gt; <span class="keywordtype">void</span> { <span class="comment">/* do something on the main thread */</span> });</div>
+<div class="line"> </div>
+<div class="line">        <span class="comment">// now do something in the worker thread</span></div>
+<div class="line"> </div>
 <div class="line">        mexec.<a class="code hl_function" href="classmanticore_1_1Executor.html#a3bc19ec43cefc2e0b77f413a47c0e090">run</a>([&amp;]() -&gt; <span class="keywordtype">void</span> { <span class="comment">/* do another thing on the main thread */</span> });</div>
+<div class="line"> </div>
 <div class="line">        <span class="comment">// and so on, until...</span></div>
 <div class="line">        mexec.<a class="code hl_function" href="classmanticore_1_1Executor.html#a81428c605ca12533493695ef59ce2e5a">finish_thread</a>();</div>
 <div class="line">    }, t);</div>
@@ -104,15 +108,47 @@ Quick start</h1>
 <div class="line"><span class="keywordflow">for</span> (<span class="keyword">auto</span>&amp; j : jobs) {</div>
 <div class="line">    j.join();</div>
 <div class="line">}</div>
-<div class="ttc" id="aclassmanticore_1_1Executor_html"><div class="ttname"><a href="classmanticore_1_1Executor.html">manticore::Executor</a></div><div class="ttdoc">Execute arbitrary functions on the main thread.</div><div class="ttdef"><b>Definition</b> manticore.hpp:27</div></div>
-<div class="ttc" id="aclassmanticore_1_1Executor_html_a3774871e1c966a8366c9455b018d5681"><div class="ttname"><a href="classmanticore_1_1Executor.html#a3774871e1c966a8366c9455b018d5681">manticore::Executor::listen</a></div><div class="ttdeci">void listen()</div><div class="ttdef"><b>Definition</b> manticore.hpp:130</div></div>
-<div class="ttc" id="aclassmanticore_1_1Executor_html_a3bc19ec43cefc2e0b77f413a47c0e090"><div class="ttname"><a href="classmanticore_1_1Executor.html#a3bc19ec43cefc2e0b77f413a47c0e090">manticore::Executor::run</a></div><div class="ttdeci">void run(Function_ f)</div><div class="ttdef"><b>Definition</b> manticore.hpp:93</div></div>
-<div class="ttc" id="aclassmanticore_1_1Executor_html_a81428c605ca12533493695ef59ce2e5a"><div class="ttname"><a href="classmanticore_1_1Executor.html#a81428c605ca12533493695ef59ce2e5a">manticore::Executor::finish_thread</a></div><div class="ttdeci">void finish_thread(bool notify=true)</div><div class="ttdef"><b>Definition</b> manticore.hpp:75</div></div>
-<div class="ttc" id="aclassmanticore_1_1Executor_html_a96e30d6ef0624c53d157acad1fec9c6e"><div class="ttname"><a href="classmanticore_1_1Executor.html#a96e30d6ef0624c53d157acad1fec9c6e">manticore::Executor::initialize</a></div><div class="ttdeci">void initialize(size_t n, std::string e)</div><div class="ttdef"><b>Definition</b> manticore.hpp:51</div></div>
+<div class="ttc" id="aclassmanticore_1_1Executor_html"><div class="ttname"><a href="classmanticore_1_1Executor.html">manticore::Executor</a></div><div class="ttdoc">Execute arbitrary functions on the main thread.</div><div class="ttdef"><b>Definition</b> manticore.hpp:31</div></div>
+<div class="ttc" id="aclassmanticore_1_1Executor_html_a3774871e1c966a8366c9455b018d5681"><div class="ttname"><a href="classmanticore_1_1Executor.html#a3774871e1c966a8366c9455b018d5681">manticore::Executor::listen</a></div><div class="ttdeci">void listen()</div><div class="ttdef"><b>Definition</b> manticore.hpp:146</div></div>
+<div class="ttc" id="aclassmanticore_1_1Executor_html_a3bc19ec43cefc2e0b77f413a47c0e090"><div class="ttname"><a href="classmanticore_1_1Executor.html#a3bc19ec43cefc2e0b77f413a47c0e090">manticore::Executor::run</a></div><div class="ttdeci">void run(Function_ f)</div><div class="ttdef"><b>Definition</b> manticore.hpp:104</div></div>
+<div class="ttc" id="aclassmanticore_1_1Executor_html_a81428c605ca12533493695ef59ce2e5a"><div class="ttname"><a href="classmanticore_1_1Executor.html#a81428c605ca12533493695ef59ce2e5a">manticore::Executor::finish_thread</a></div><div class="ttdeci">void finish_thread(bool notify=true)</div><div class="ttdef"><b>Definition</b> manticore.hpp:81</div></div>
+<div class="ttc" id="aclassmanticore_1_1Executor_html_a96e30d6ef0624c53d157acad1fec9c6e"><div class="ttname"><a href="classmanticore_1_1Executor.html#a96e30d6ef0624c53d157acad1fec9c6e">manticore::Executor::initialize</a></div><div class="ttdeci">void initialize(size_t n, std::string e)</div><div class="ttdef"><b>Definition</b> manticore.hpp:56</div></div>
 <div class="ttc" id="amanticore_8hpp_html"><div class="ttname"><a href="manticore_8hpp.html">manticore.hpp</a></div><div class="ttdoc">Defines the manticore namespace.</div></div>
 </div><!-- fragment --><p>The above code initializes the <code>Executor</code> and launches worker threads that request main thread execution via <code>run()</code>. Meanwhile, the main thread is listening for worker requests via <code>listen()</code>. This blocks until all workers call <code>finish_thread()</code>, at which point the main thread is allowed to proceed.</p>
 <p>Check out the <a href="https://tatami-inc.github.io/manticore">reference documentation</a> for more details.</p>
 <h1><a class="anchor" id="autotoc_md3"></a>
+Create a global &lt;tt&gt;Executor&lt;/tt&gt;</h1>
+<p>Sometimes, the <code>Executor::run()</code> function needs to be called from deep inside another library, with no opportunity to pass the actual <code>Executor</code> object through the library's interface. (Looking at you, <a href="https://github.com/tatami-inc/tatami_r"><b>tatami_r</b></a>.) In such cases, we should create a global <code>Executor</code> object that can be called from anywhere. For standard source files, we can use <code>extern</code> linkage, while for header-only libraries, we can use <code>static</code> getters:</p>
+<div class="fragment"><div class="line"><span class="keyword">auto</span>&amp; executor() {</div>
+<div class="line">    <span class="keyword">static</span> <a class="code hl_class" href="classmanticore_1_1Executor.html">manticore::Executor</a> mexec;</div>
+<div class="line">    <span class="keywordflow">return</span> mexec;</div>
+<div class="line">}</div>
+</div><!-- fragment --><p>This allows us to do:</p>
+<div class="fragment"><div class="line"><span class="keywordtype">void</span> some_function() {</div>
+<div class="line">    <span class="comment">// Do various things.</span></div>
+<div class="line"> </div>
+<div class="line">    <span class="keyword">auto</span>&amp; mexec = executor();</div>
+<div class="line">    mexec.<a class="code hl_function" href="classmanticore_1_1Executor.html#a3bc19ec43cefc2e0b77f413a47c0e090">run</a>([&amp;]() -&gt; <span class="keywordtype">void</span> { <span class="comment">/* Something that must be done on the main thread. */</span> });</div>
+<div class="line"> </div>
+<div class="line">    <span class="comment">// More things.</span></div>
+<div class="line">}</div>
+</div><!-- fragment --><p><code>some_function()</code> can now be called inside a parallel context:</p>
+<div class="fragment"><div class="line"><span class="keyword">auto</span>&amp; mexec = executor();</div>
+<div class="line">mexec.<a class="code hl_function" href="classmanticore_1_1Executor.html#a96e30d6ef0624c53d157acad1fec9c6e">initialize</a>(2);</div>
+<div class="line"> </div>
+<div class="line"><span class="keywordflow">for</span> (<span class="keywordtype">int</span> t = 0; t &lt; nthreads; ++t) {</div>
+<div class="line">    jobs.emplace_back([&amp;](<span class="keywordtype">int</span> thread) -&gt; <span class="keywordtype">void</span> {</div>
+<div class="line">        some_function();</div>
+<div class="line">        mexec.<a class="code hl_function" href="classmanticore_1_1Executor.html#a81428c605ca12533493695ef59ce2e5a">finish_thread</a>();</div>
+<div class="line">    }, t);</div>
+<div class="line">}</div>
+<div class="line"> </div>
+<div class="line">mexec.<a class="code hl_function" href="classmanticore_1_1Executor.html#a3774871e1c966a8366c9455b018d5681">listen</a>();</div>
+<div class="line"><span class="keywordflow">for</span> (<span class="keyword">auto</span>&amp; j : jobs) {</div>
+<div class="line">    j.join();</div>
+<div class="line">}</div>
+</div><!-- fragment --><p>Note that <code>some_function()</code> can <em>also</em> be called outside of a parallel context, i.e. without running <code>initialize()</code>, <code>finish_thread()</code> or <code>listen()</code>. In such cases, it will run directly on the main thread, allowing developers to re-use the same function in serial applications.</p>
+<h1><a class="anchor" id="autotoc_md4"></a>
 Building projects</h1>
 <p>If you're using CMake, you just need to add something like this to your <code>CMakeLists.txt</code>:</p>
 <div class="fragment"><div class="line">include(FetchContent)</div>
