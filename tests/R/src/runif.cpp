@@ -10,29 +10,44 @@ Rcpp::List parallel_runif(int nthreads, int iterations, int number) {
     auto nsim = Rcpp::IntegerVector::create(number);
 
     manticore::Executor mexec;
-    mexec.initialize(nthreads);
+    std::vector<Rcpp::List> raw_output;
 
-    std::vector<Rcpp::List> raw_output(nthreads);
-    for (int t = 0; t < nthreads; ++t) {
-        raw_output[t] = Rcpp::List(iterations);
-    }
+    if (nthreads == 0) {
+        raw_output.resize(1);
+        raw_output[0] = Rcpp::List(iterations);
 
-    std::vector<std::thread> jobs;
-    jobs.reserve(nthreads);
-    for (int t = 0; t < nthreads; ++t) {
-        jobs.emplace_back([&](int thread) -> void {
-            for (int i = 0; i < iterations; ++i) {
-                mexec.run([&]() -> void {
-                    raw_output[thread][i] = runif(nsim);
-                });
-            }
-            mexec.finish_thread();
-        }, t);
-    }
+        for (int i = 0; i < iterations; ++i) {
+            mexec.run([&]() -> void {
+                raw_output[0][i] = runif(nsim);
+            });
+        }
 
-    mexec.listen();
-    for (auto& j : jobs) {
-        j.join();
+    } else {
+        mexec.initialize(nthreads);
+
+        raw_output.resize(nthreads);
+        for (int t = 0; t < nthreads; ++t) {
+            raw_output[t] = Rcpp::List(iterations);
+        }
+
+        std::vector<std::thread> jobs;
+        jobs.reserve(nthreads);
+
+        for (int t = 0; t < nthreads; ++t) {
+            jobs.emplace_back([&](int thread) -> void {
+                for (int i = 0; i < iterations; ++i) {
+                    mexec.run([&]() -> void {
+                        raw_output[thread][i] = runif(nsim);
+                    });
+                }
+                mexec.finish_thread();
+            }, t);
+        }
+
+        mexec.listen();
+        for (auto& j : jobs) {
+            j.join();
+        }
     }
 
     return Rcpp::List(raw_output.begin(), raw_output.end());

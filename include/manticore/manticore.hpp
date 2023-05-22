@@ -23,6 +23,10 @@ namespace manticore {
  * A corresponding number of worker threads can then be created using `std::thread`.
  * Each worker can request functions for main thread execution via `run()`.
  * The main thread should call `listen()` to wait for such requests, blocking until all workers have finished by calling `finish_thread()`.
+ *
+ * Outside of parallel contexts, the same class can be used to execute functions directly on the main thread by just calling `run()`.
+ * It is not necessary to call `initialize()` beforehand, nor is it required to `listen()`, or to call `finish_thread()`.
+ * This is helpful to enable the same code to be used in parallel and serial contexts.
  */
 class Executor {
     std::mutex run_lock;
@@ -37,6 +41,7 @@ class Executor {
     Status status;
     std::function<void()> fun;
 
+    bool initialized = false;
     bool done() const { 
         return ncomplete.load() == nthreads;
     }
@@ -54,6 +59,7 @@ public:
         fallback_error = std::move(e);
         error_message.clear();
         status = Status::FREE;
+        initialized = true;
     }
 
     /**
@@ -81,8 +87,13 @@ public:
 
 public:
     /**
-     * Make a request to the main thread (which is or will be running `listen()`) to run the specified function.
-     * This should be called from a worker thread.
+     * Make a request to the main thread to run the specified function.
+     * 
+     * If `initialize()` was previously called on the main thread, this method should be called from a worker thread.
+     * It is expected that the main thread is (or will be) running `listen()`.
+     *
+     * If `initialize()` was not previously called, it is assumed that this method is being called from the main thread.
+     * In such cases, `f` is executed immediately.
      *
      * @tparam Function_ Class of the function object, typically a lambda.
      * This should accept no arguments and return no value.
@@ -91,6 +102,11 @@ public:
      */
     template<class Function_>
     void run(Function_ f) {
+        if (!initialized) {
+            f();
+            return;
+        }
+
         // Waiting until the main thread executor is free,
         // and then assigning it a task.
         std::unique_lock lk(run_lock);
@@ -152,6 +168,8 @@ public:
             lk.unlock();
             cv.notify_all();
         }
+
+        initialized = false;
     }
 };
 

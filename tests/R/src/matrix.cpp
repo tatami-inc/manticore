@@ -12,26 +12,40 @@ Rcpp::List parallel_matrix(int nthreads, int nrow, int ncol) {
     Rcpp::IntegerVector NC = Rcpp::IntegerVector::create(ncol);
 
     manticore::Executor mexec;
-    mexec.initialize(nthreads);
+    Rcpp::List output;
 
-    Rcpp::List output(nthreads);
+    if (nthreads == 0) {
+        output = Rcpp::List(1);
 
-    std::vector<std::thread> jobs;
-    jobs.reserve(nthreads);
-    for (int t = 0; t < nthreads; ++t) {
-        jobs.emplace_back([&](int thread) -> void {
-            mexec.run([&]() -> void {
-                auto data = Rcpp::NumericVector::create(thread + 1);
-                output[thread] = matrix(data, NR, NC);
-            });
-            mexec.finish_thread();
-        }, t);
+        mexec.run([&]() -> void {
+            auto data = Rcpp::NumericVector::create(1);
+            output[0] = matrix(data, NR, NC);
+        });
+
+        return output;
+
+    } else {
+        mexec.initialize(nthreads);
+
+        output = Rcpp::List(nthreads);
+        std::vector<std::thread> jobs;
+        jobs.reserve(nthreads);
+
+        for (int t = 0; t < nthreads; ++t) {
+            jobs.emplace_back([&](int thread) -> void {
+                mexec.run([&]() -> void {
+                    auto data = Rcpp::NumericVector::create(thread + 1);
+                    output[thread] = matrix(data, NR, NC);
+                });
+                mexec.finish_thread();
+            }, t);
+        }
+
+        mexec.listen();
+        for (auto& j : jobs) {
+            j.join();
+        }
+
+        return output;
     }
-
-    mexec.listen();
-    for (auto& j : jobs) {
-        j.join();
-    }
-
-    return output;
 }

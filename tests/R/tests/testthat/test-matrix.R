@@ -22,3 +22,14 @@ test_that("parallel matrix formation works as expected", {
         expect_identical(out[[i]], matrix(i*1, 10, 90))
     }
 })
+
+test_that("serial matrix formation works as expected", {
+    out <- parallel_matrix(1L, 100, 200)
+    expect_identical(length(out), 1L)
+    for (i in seq_along(out)) {
+        expect_identical(out[[i]], matrix(i*1, 100, 200))
+    }
+
+    expect_identical(out, parallel_matrix(0L, 100, 200))
+})
+
