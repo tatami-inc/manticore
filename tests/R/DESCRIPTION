@@ -1,0 +1,16 @@
+Package: manticore.tests
+Title: Manticore Tests
+Description: 
+    Test for correct manticore behavior with R's garbage collection.
+Authors@R: 
+    person("Aaron", "Lun", role=c("aut", "cre"), email="infinite.monkeys.with.keyboards@gmail.com")
+Version: 0.1.0
+Date: 2023-05-21
+Imports:
+    Rcpp
+Suggests:
+    testthat
+LinkingTo:
+    Rcpp
+SystemRequirements: C++17
+RoxygenNote: 7.2.3
