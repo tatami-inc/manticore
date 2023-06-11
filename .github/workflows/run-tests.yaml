@@ -15,7 +15,7 @@ jobs:
 
     - name: Set directories
       run: |
-        echo "R_PKG_DIR=${R_HOME}/site-library" >> $GITHUB_ENV
+        R --slave -e "cat(paste0('R_PKG_DIR=', .libPaths()[1]))" >> $GITHUB_ENV
 
     - name: Restore the package directory
       uses: actions/cache@v2
