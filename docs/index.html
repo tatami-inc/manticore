@@ -150,6 +150,8 @@ Create a global &lt;tt&gt;Executor&lt;/tt&gt;</h1>
 </div><!-- fragment --><p >Note that <code>some_function()</code> can <em>also</em> be called outside of a parallel context, i.e. without running <code>initialize()</code>, <code>finish_thread()</code> or <code>listen()</code>. In such cases, it will run directly on the main thread, allowing developers to re-use the same function in serial applications.</p>
 <h1><a class="anchor" id="autotoc_md4"></a>
 Building projects</h1>
+<h2><a class="anchor" id="autotoc_md5"></a>
+CMake with &lt;tt&gt;FetchContent&lt;/tt&gt;</h2>
 <p >If you're using CMake, you just need to add something like this to your <code>CMakeLists.txt</code>:</p>
 <div class="fragment"><div class="line">include(FetchContent)</div>
 <div class="line"> </div>
@@ -166,7 +168,18 @@ Building projects</h1>
 <div class="line"> </div>
 <div class="line"># For libaries</div>
 <div class="line">target_link_libraries(mylib INTERFACE manticore)</div>
-</div><!-- fragment --><p >If you're not using CMake, the simple approach is to just copy the files - either directly or with Git submodules - and include their path during compilation with, e.g., GCC's <code>-I</code>. </p>
+</div><!-- fragment --><h2><a class="anchor" id="autotoc_md6"></a>
+CMake using &lt;tt&gt;find_package()&lt;/tt&gt;</h2>
+<p >You can install the library by cloning a suitable version of this repository and running the following commands:</p>
+<div class="fragment"><div class="line">mkdir build &amp;&amp; cd build</div>
+<div class="line">cmake ..</div>
+<div class="line">cmake --build . --target install</div>
+</div><!-- fragment --><p >Then you can use <code>find_package()</code> as usual:</p>
+<div class="fragment"><div class="line">find_package(tatami_manticore CONFIG REQUIRED)</div>
+<div class="line">target_link_libraries(mylib INTERFACE tatami::manticore)</div>
+</div><!-- fragment --><h2><a class="anchor" id="autotoc_md7"></a>
+Manual</h2>
+<p >If you're not using CMake, the simple approach is to just copy the files - either directly or with Git submodules - and include their path during compilation with, e.g., GCC's <code>-I</code>. </p>
 </div></div><!-- PageDoc -->
 </div><!-- contents -->
 <!-- start footer part -->
