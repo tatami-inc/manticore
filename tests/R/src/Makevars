@@ -1,1 +1,1 @@
-PKG_CPPFLAGS=-I../../../include/
+PKG_CPPFLAGS=-I../../../include/ -Wall -Wextra -Wpedantic
