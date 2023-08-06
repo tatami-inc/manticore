@@ -100,6 +100,8 @@ In such cases, it will run directly on the main thread, allowing developers to r
 
 ## Building projects 
 
+### CMake with `FetchContent`
+
 If you're using CMake, you just need to add something like this to your `CMakeLists.txt`:
 
 ```cmake
@@ -123,5 +125,24 @@ target_link_libraries(myexe manticore)
 # For libaries
 target_link_libraries(mylib INTERFACE manticore)
 ```
+
+### CMake using `find_package()`
+
+You can install the library by cloning a suitable version of this repository and running the following commands:
+
+```sh
+mkdir build && cd build
+cmake ..
+cmake --build . --target install
+```
+
+Then you can use `find_package()` as usual:
+
+```cmake
+find_package(tatami_manticore CONFIG REQUIRED)
+target_link_libraries(mylib INTERFACE tatami::manticore)
+```
+
+### Manual
 
 If you're not using CMake, the simple approach is to just copy the files - either directly or with Git submodules - and include their path during compilation with, e.g., GCC's `-I`.
