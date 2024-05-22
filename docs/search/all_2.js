@@ -1,4 +1,6 @@
 var searchData=
 [
-  ['initialize_0',['initialize',['../classmanticore_1_1Executor.html#a96e30d6ef0624c53d157acad1fec9c6e',1,'manticore::Executor::initialize(size_t n, std::string e)'],['../classmanticore_1_1Executor.html#a5f375a1cf36d205d4ade66de7bdb0d35',1,'manticore::Executor::initialize(size_t n)']]]
+  ['cmake_20using_20tt_20find_5fpackage_20tt_0',['CMake using &lt;tt&gt;find_package()&lt;/tt&gt;',['../index.html#autotoc_md6',1,'']]],
+  ['cmake_20with_20tt_20fetchcontent_20tt_1',['CMake with &lt;tt&gt;FetchContent&lt;/tt&gt;',['../index.html#autotoc_md5',1,'']]],
+  ['create_20a_20global_20tt_20executor_20tt_2',['Create a global &lt;tt&gt;Executor&lt;/tt&gt;',['../index.html#autotoc_md3',1,'']]]
 ];

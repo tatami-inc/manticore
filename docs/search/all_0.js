@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['executor_0',['Executor',['../classmanticore_1_1Executor.html',1,'manticore']]]
+  ['a_20global_20tt_20executor_20tt_0',['Create a global &lt;tt&gt;Executor&lt;/tt&gt;',['../index.html#autotoc_md3',1,'']]]
 ];
