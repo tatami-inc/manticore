@@ -13,6 +13,7 @@
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
+<link href="doxygen-awesome.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
 <div id="top"><!-- do not remove this div, it is closed by doxygen! -->
@@ -73,7 +74,7 @@ $(function() {
   <div class="headertitle"><div class="title">Main thread function executor </div></div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><p><a class="anchor" id="md__2github_2workspace_2README"></a> </p>
+<div class="textblock"><p><a class="anchor" id="md__2github_2workspace_2README"></a> <img src="https://github.com/tatami-inc/manticore/actions/workflows/run-tests.yaml/badge.svg" alt="Unit tests" style="pointer-events: none;" class="inline"/> <img src="https://github.com/tatami-inc/manticore/actions/workflows/doxygenate.yaml/badge.svg" alt="Documentation" style="pointer-events: none;" class="inline"/></p>
 <h1><a class="anchor" id="autotoc_md1"></a>
 Overview</h1>
 <p>This repository implements a C++ class that allows worker threads to pass functions for execution on the main thread. It is intended for non-thread-safe third-party code where locking is insufficient, e.g., due to garbage collection. For example, we can use <b>manticore</b> to allow workers to execute R code that might trigger GC. This is useful for parallelizing functions that need to occasionally - but safely - call the R APIs.</p>
