@@ -1,5 +1,8 @@
 # Main thread function executor
 
+![Unit tests](https://github.com/tatami-inc/manticore/actions/workflows/run-tests.yaml/badge.svg)
+![Documentation](https://github.com/tatami-inc/manticore/actions/workflows/doxygenate.yaml/badge.svg)
+
 ## Overview
 
 This repository implements a C++ class that allows worker threads to pass functions for execution on the main thread.
