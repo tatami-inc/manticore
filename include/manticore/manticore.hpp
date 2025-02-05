@@ -121,7 +121,7 @@ public:
         // Waiting until the main thread executor is free,
         // and then assigning it a task.
         std::unique_lock lk(run_lock);
-        cv.wait(lk, [&]{ return status == Status::FREE; });
+        cv.wait(lk, [&]() -> bool { return status == Status::FREE; });
 
         fun = std::move(f);
         status = Status::PRIMED;
@@ -132,7 +132,7 @@ public:
         cv.notify_all();
 
         lk.lock();
-        cv.wait(lk, [&]{ return status == Status::FINISHED; });
+        cv.wait(lk, [&]() -> bool { return status == Status::FINISHED; });
 
         // Making a copy of any error message so we can use it for throwing
         // after the unlock. Also clearing the error message for the next thread.
@@ -158,7 +158,7 @@ public:
         while (1) {
             std::unique_lock lk(run_lock);
 
-            cv.wait(lk, [&]{ return status == Status::PRIMED || done(); });
+            cv.wait(lk, [&]() -> bool { return status == Status::PRIMED || done(); });
             if (done()) {
                 break;
             }
