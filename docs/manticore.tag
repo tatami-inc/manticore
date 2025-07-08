@@ -14,15 +14,15 @@
       <type>void</type>
       <name>initialize</name>
       <anchorfile>classmanticore_1_1Executor.html</anchorfile>
-      <anchor>a96e30d6ef0624c53d157acad1fec9c6e</anchor>
-      <arglist>(size_t n, std::string e)</arglist>
+      <anchor>a5615536bf60c44d0bcfab7471a2baa6b</anchor>
+      <arglist>(int n, std::string e)</arglist>
     </member>
     <member kind="function">
       <type>void</type>
       <name>initialize</name>
       <anchorfile>classmanticore_1_1Executor.html</anchorfile>
-      <anchor>a5f375a1cf36d205d4ade66de7bdb0d35</anchor>
-      <arglist>(size_t n)</arglist>
+      <anchor>ad26b3dcf22962380318e73778dcb8372</anchor>
+      <arglist>(int n)</arglist>
     </member>
     <member kind="function">
       <type>void</type>
