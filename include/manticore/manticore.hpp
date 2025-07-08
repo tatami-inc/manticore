@@ -34,8 +34,8 @@ class Executor {
     std::mutex run_lock;
     std::condition_variable cv;
 
-    size_t nthreads;
-    size_t ncomplete;
+    int nthreads;
+    int ncomplete;
     std::string fallback_error;
     std::string error_message;
 
@@ -55,7 +55,7 @@ public:
      * @param n Number of worker threads in this session.
      * @param e Default error message if a non-standard exception is thrown.
      */
-    void initialize(size_t n, std::string e) {
+    void initialize(int n, std::string e) {
         nthreads = n;
         ncomplete = 0;
         fallback_error = std::move(e);
@@ -69,7 +69,7 @@ public:
      *
      * @param n Number of worker threads in this session.
      */
-    void initialize(size_t n) {
+    void initialize(int n) {
         initialize(n, "failed main thread execution");
     }
 
