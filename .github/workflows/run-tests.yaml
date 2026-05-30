@@ -27,7 +27,12 @@ jobs:
         path: ${{ env.R_PKG_DIR }}
         key: preinstalled-packages
 
-    - name: Install dependencies
+    - name: Install system dependencies
+      run: |
+        apt-get update
+        apt-get install -y libuv1-dev # for the fs package.
+
+    - name: Install package dependencies
       shell: Rscript {0}
       run: |
         install.packages(c("Rcpp", "testthat"))
