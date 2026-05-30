@@ -177,7 +177,7 @@ $(function(){ initResizable(false); });
 <div class="line"><a id="l00127" name="l00127"></a><span class="lineno">  127</span>        status = Status::PRIMED;</div>
 <div class="line"><a id="l00128" name="l00128"></a><span class="lineno">  128</span> </div>
 <div class="line"><a id="l00129" name="l00129"></a><span class="lineno">  129</span>        <span class="comment">// Notifying the main thread that there is a task. Only the</span></div>
-<div class="line"><a id="l00130" name="l00130"></a><span class="lineno">  130</span>        <span class="comment">// main thread waits on PRIMED, so other works should not proceed.</span></div>
+<div class="line"><a id="l00130" name="l00130"></a><span class="lineno">  130</span>        <span class="comment">// main thread waits on PRIMED, so worker threads should not proceed.</span></div>
 <div class="line"><a id="l00131" name="l00131"></a><span class="lineno">  131</span>        lk.unlock();</div>
 <div class="line"><a id="l00132" name="l00132"></a><span class="lineno">  132</span>        cv.notify_all();</div>
 <div class="line"><a id="l00133" name="l00133"></a><span class="lineno">  133</span> </div>
