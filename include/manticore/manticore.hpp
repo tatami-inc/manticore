@@ -127,7 +127,7 @@ public:
         status = Status::PRIMED;
 
         // Notifying the main thread that there is a task. Only the
-        // main thread waits on PRIMED, so other works should not proceed.
+        // main thread waits on PRIMED, so worker threads should not proceed.
         lk.unlock();
         cv.notify_all();
 
